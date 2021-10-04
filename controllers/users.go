@@ -94,11 +94,9 @@ func GenerateJwtClaims(u models.User) (string, error) {
 }
 
 func Hello(c *fiber.Ctx) error {	
-	name := c.Locals("name")
-	fmt.Println(name)
-
-	expiration := c.Locals("expiration")
-	fmt.Println(expiration)
+	user := c.Locals("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	name := claims["name"]
 	
-	return c.JSON(fiber.Map{"message": "You're in!"})	
+	return c.JSON(fiber.Map{"message": fmt.Sprintf("You're in, %s!", name)})	
 }
