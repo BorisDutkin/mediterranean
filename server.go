@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
 
 	"github.com/BorisDutkin/mediterranean/database"
@@ -19,6 +21,12 @@ func main() {
 
 	routes.Setup(app)
 	database.Connect()
+
+	m := flag.String("models", "", "a string")
+	s := flag.Bool("seed", false, "a boolean")
+	flag.Parse()
+
+	fmt.Println(*m, *s)	
 	
 	app.Listen(":3000")
 }
